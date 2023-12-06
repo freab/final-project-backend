@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id           Int      @id() @default(autoincrement())
+    fname        String?
+    lname        String?
+    email        String?
+    phone_number String?
+    coupon_id    String?
+    profile_url  String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+}
+
+model Book {
+    id        Int      @id() @default(autoincrement())
+    name      String?
+    author    String?
+    type      String?
+    cover_url String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Coupon {
+    id            Int      @id() @default(autoincrement())
+    user_id       Int
+    redeemed_date String?
+    is_redeemed   Boolean
+    price         Int
+    book_id       Int
+    coupon        String?
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+}
+
+model Model {
+    id               Int      @id() @default(autoincrement())
+    book_id          Int
+    model_source_url String?
+    size             String
+    mode_name        String
+    page_number      Int
+    set_id           Int
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+}
+
+model Set {
+    id          Int      @id() @default(autoincrement())
+    price       Int
+    total_items Int
+    set_name    String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
