@@ -48,3 +48,5 @@ couponRepository.remove = async (id) => {
         }
     });
 };
+
+module.exports = couponRepository;

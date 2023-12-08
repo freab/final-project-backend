@@ -1,6 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { bookCoverUrl } = require("../utils/constants");
-
 const bookRepository = {};
 const prisma = new PrismaClient();
 
@@ -10,7 +8,7 @@ bookRepository.create = async (book) => {
             name: book.name,
             author: book.author,
             type: book.type,
-            cover_url: bookCoverUrl
+            cover_url: book.cover_url
         }
     });
 };
@@ -67,10 +65,10 @@ bookRepository.edit = async (id, data) => {
     });
 };
 
-bookRepository.remove = async (userId) => {
+bookRepository.remove = async (bookId) => {
     return await prisma.book.delete({
         where: {
-            id: userId
+            id: bookId
         }
     });
 };

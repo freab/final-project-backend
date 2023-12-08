@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { reset } = require("nodemon");
 const prisma = new PrismaClient();
 
 const setRepository = {};
