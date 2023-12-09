@@ -65,16 +65,16 @@ couponController.getAll = async (req, res) => {
 };
 
 couponController.getById = async (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
-    if (!id) {
+    if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
     }
 
     try {
-        const coupon = await couponRepository.getById(id);
+        const coupons = await couponRepository.getById(id);
         return res.status(400).json(responses.getCustomResponse(coupons, false));
     } catch (error) {
         console.log(error);
@@ -83,9 +83,9 @@ couponController.getById = async (req, res) => {
 };
 
 couponController.remove = async (req, res) => {
-    const { id } = req.id;
+    const id = parseInt(req.params.id);
 
-    if (!id) {
+    if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Error! please check server log..."
         }, true));

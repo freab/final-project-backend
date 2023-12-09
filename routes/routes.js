@@ -19,14 +19,14 @@ router.get("/books/id/:id", bookController.getById);
 router.get("/books/type", bookController.getByType);
 router.post("/books/create", bookController.create);
 router.put("/books/edit", bookController.editBook);
-router.delete("/books/delete/", bookController.remove);
+router.delete("/books/delete/:id", bookController.remove);
 
 //Coupon Endpoints
 router.get("/coupons", couponController.getAll);
 router.get("/coupons/id/:id", couponController.getById);
 router.put("/coupons/edit", couponController.editCoupon);
 router.post("/coupons/create", couponController.create);
-router.delete("/coupons/delete", couponController.remove);
+router.delete("/coupons/delete/:id", couponController.remove);
 
 //Model Endpoints
 router.get("/models", modelController.getAll);

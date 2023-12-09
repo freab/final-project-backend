@@ -96,7 +96,7 @@ bookController.getByType = async (req, res) => {
 
     try {
         const foundBook = await bookRepository.getBookByType(type);
-        return res.status(200).json(responses.getCustomResponse(foundBook, true));
+        return res.status(200).json(responses.getCustomResponse(foundBook, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -104,9 +104,9 @@ bookController.getByType = async (req, res) => {
 };
 
 bookController.remove = async (req, res) => {
-    const { id } = req.body;
+    const id = parseInt(req.params.id);
 
-    if (!id) {
+    if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
@@ -114,7 +114,7 @@ bookController.remove = async (req, res) => {
 
     try {
         const remove = await bookRepository.remove(id);
-        return res.status(200).json(responses.getCustomResponse(remove, true));
+        return res.status(200).json(responses.getCustomResponse(remove, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

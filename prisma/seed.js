@@ -194,7 +194,7 @@ async function main() {
     /* if (process.argv.includes('--delete-data')) {
         await deleteAllData();
     } */
-
+    await deleteAllData();
     await seedUsers();
     await seedBooks();
     await seedCoupons();
