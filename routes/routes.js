@@ -6,6 +6,7 @@ const modelController = require("../controller/modelController");
 const setController = require("../controller/setController");
 
 //user Endpoints
+router.get("/users", userController.getAll);
 router.post("/users/google-signIn", userController.loginWithGoogle);
 router.post("/users/login-email", userController.loginWithEmail);
 router.put("/users/refresh", userController.referesh);

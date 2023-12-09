@@ -49,9 +49,10 @@ bookController.editBook = async (req, res) => {
 };
 
 bookController.getAll = async (req, res) => {
-    const { skip, take } = req.query;
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
 
-    if (!skip || !take) {
+    if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
@@ -67,9 +68,9 @@ bookController.getAll = async (req, res) => {
 };
 
 bookController.getById = async (req, res) => {
-    const { id } = req.body;
+    const id = parseInt(req.params.id);
 
-    if (!id) {
+    if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
@@ -77,7 +78,7 @@ bookController.getById = async (req, res) => {
 
     try {
         const foundBook = await bookRepository.getById(id);
-        return res.status(200).json(responses.getCustomResponse(foundBook, true));
+        return res.status(200).json(responses.getCustomResponse(foundBook, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -85,7 +86,7 @@ bookController.getById = async (req, res) => {
 };
 
 bookController.getByType = async (req, res) => {
-    const { type } = req.body;
+    const { type } = req.query;
 
     if (!type) {
         return res.status(400).json(responses.getCustomResponse({

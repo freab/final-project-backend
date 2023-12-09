@@ -47,9 +47,10 @@ setController.editSet = async (req, res) => {
 };
 
 setController.getAll = async (req, res) => {
-    const { skip, take } = req.query;
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
 
-    if (!skip || !take) {
+    if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields..."
         }, true));
@@ -65,9 +66,10 @@ setController.getAll = async (req, res) => {
 };
 
 setController.getById = async (req, res) => {
-    const { skip, take } = req.query;
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
 
-    if (!skip || !take) {
+    if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields..."
         }, true));

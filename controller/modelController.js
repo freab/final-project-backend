@@ -46,9 +46,10 @@ modelController.editModel = async (req, res) => {
 };
 
 modelController.getAll = async (req, res) => {
-    const { skip, take } = req.query;
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
 
-    if (!skip || !take) {
+    if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Error! please check server log..."
         }, true));

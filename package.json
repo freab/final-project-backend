@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
@@ -11,9 +14,10 @@
   },
   "keywords": [],
   "author": "",
-  "type":"commonjs",
+  "type": "commonjs",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "nodemon": "^3.0.1",
     "prisma": "^5.5.2"
   },
