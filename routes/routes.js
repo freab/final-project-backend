@@ -1,0 +1,42 @@
+const router = require("express").Router();
+const userController = require("../controller/userController");
+const bookController = require("../controller/bookController");
+const couponController = require("../controller/couponController");
+const modelController = require("../controller/modelController");
+const setController = require("../controller/setController");
+
+//user Endpoints
+router.post("/users/google-signIn", userController.loginWithGoogle);
+router.post("/users/login-email", userController.loginWithEmail);
+router.put("/users/refresh", userController.referesh);
+router.put("/users/edit-profile", userController.editProfile);
+router.put("/users/delete-profile", userController.deleteProfile);
+
+//book Endpoints
+router.get("/books", bookController.getAll);
+router.get("/books/id/:id", bookController.getById);
+router.get("/books/type", bookController.getByType);
+router.post("/books/create", bookController.create);
+router.put("/books/edit", bookController.editBook);
+router.delete("/books/delete/", bookController.remove);
+
+//Coupon Endpoints
+router.get("/coupons", couponController.getAll);
+router.get("/coupons/id/:id", couponController.getById);
+router.put("/coupons/edit", couponController.editCoupon);
+router.post("/coupons/create", couponController.create);
+router.delete("/coupons/delete", couponController.remove);
+
+//Model Endpoints
+router.get("/models", modelController.getAll);
+router.post("/models/create", modelController.create);
+router.get("/models/id/:id", modelController.getById);
+router.put("/models/edit", modelController.editModel);
+
+//Set Endpoints
+router.get("/sets", setController.getAll);
+router.get("/sets/id/:id", setController.getById);
+router.post("/sets/create", setController.create);
+router.put("/sets/edit", setController.editSet);
+
+module.exports = router;

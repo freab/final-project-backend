@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const bookRepository = require("../repository/bookRepository");
 const responses = require("../utils/responses");
 
@@ -23,9 +22,9 @@ bookController.create = async (req, res) => {
 
         return res.status(200).json(responses.getCustomResponse(createBook, false));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 bookController.editBook = async (req, res) => {
@@ -44,9 +43,9 @@ bookController.editBook = async (req, res) => {
 
         return res.status(200).json(responses.getCustomResponse(updateBook, false));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 bookController.getAll = async (req, res) => {
@@ -62,9 +61,9 @@ bookController.getAll = async (req, res) => {
         const getAllBooks = await bookRepository.getAll(skip, take);
         return res.status(200).json(responses.getCustomResponse(getAllBooks, false));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 bookController.getById = async (req, res) => {
@@ -80,9 +79,9 @@ bookController.getById = async (req, res) => {
         const foundBook = await bookRepository.getById(id);
         return res.status(200).json(responses.getCustomResponse(foundBook, true));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 bookController.getByType = async (req, res) => {
@@ -98,9 +97,9 @@ bookController.getByType = async (req, res) => {
         const foundBook = await bookRepository.getBookByType(type);
         return res.status(200).json(responses.getCustomResponse(foundBook, true));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 bookController.remove = async (req, res) => {
@@ -116,9 +115,9 @@ bookController.remove = async (req, res) => {
         const remove = await bookRepository.remove(id);
         return res.status(200).json(responses.getCustomResponse(remove, true));
     } catch (error) {
-    console.log(error);
-    res.status(500).json(responses.getCustomResponse(error, true));
-  }
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
 };
 
 module.exports = bookController;

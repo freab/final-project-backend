@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "type": "module",
+  "type":"commonjs",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",

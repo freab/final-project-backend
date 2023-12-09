@@ -63,6 +63,24 @@ couponController.getAll = async (req, res) => {
     }
 };
 
+couponController.getById = async (req, res) => {
+    const id = req.params.id;
+
+    if (!id) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const coupon = await couponRepository.getById(id);
+        return res.status(400).json(responses.getCustomResponse(coupons, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
 couponController.remove = async (req, res) => {
     const { id } = req.id;
 

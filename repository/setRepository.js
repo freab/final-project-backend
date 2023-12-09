@@ -13,6 +13,17 @@ setRepository.create = async (set) => {
     });
 };
 
+setRepository.update = async (setId, data) => {
+    return await prisma.set.update({
+        where: {
+            id: setId
+        },
+        data: {
+            ...data
+        }
+    });
+}
+
 setRepository.getAll = async (skip, take) => {
     return await prisma.set.findMany({
         skip: skip || undefined,

@@ -45,6 +45,24 @@ modelController.editModel = async (req, res) => {
     }
 };
 
+modelController.getAll = async (req, res) => {
+    const { skip, take } = req.query;
+
+    if (!skip || !take) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Error! please check server log..."
+        }, true));
+    }
+
+    try {
+        const allModels = await modelRepository.getAll(skip, take);
+        return res.status(200).json(responses.getCustomResponse(allModels, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
 modelController.getById = async (req, res) => {
     const { id } = req.body;
 
@@ -60,3 +78,5 @@ modelController.getById = async (req, res) => {
 
     }
 };
+
+module.exports = modelController;

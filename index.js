@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
-require("dotenv").require();
+require("dotenv").config();
 
 const app = express();
 const prisma = new PrismaClient();
@@ -26,10 +26,12 @@ async function connectToDB() {
 
 connectToDB();
 
-app.get("/api/v1", (req, res) => {
+app.get("/", (req, res) => {
     res.send({
         message: "Server is running...",
     })
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+    console.log("Server started running at: http://localhost:" + PORT);
+});
