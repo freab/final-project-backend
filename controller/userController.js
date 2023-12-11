@@ -4,6 +4,7 @@ const responses = require("../utils/responses");
 
 const userController = {};
 
+//bot test comment
 userController.getAll = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
