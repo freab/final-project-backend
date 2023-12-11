@@ -83,18 +83,35 @@ setController.getAll = async (req, res) => {
 };
 
 setController.getById = async (req, res) => {
-    const skip = parseInt(req.query.skip);
-    const take = parseInt(req.query.take);
+    const id = parseInt(req.params.id);
 
-    if (isNaN(skip) || isNaN(take)) {
+    if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields..."
         }, true));
     }
 
     try {
-        const getSetById = await setRepository.getById(skip, take);
-        return res.status(200).json(responses.getCustomResponse(createSet, false));
+        const getSetById = await setRepository.getById(id);
+        return res.status(200).json(responses.getCustomResponse(getSetById, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+setController.delete = async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields..."
+        }, true));
+    }
+
+    try {
+        const delereSet = await setRepository.remove(id);
+        return res.status(200).json(responses.getCustomResponse(delereSet, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

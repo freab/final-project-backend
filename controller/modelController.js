@@ -4,7 +4,7 @@ const responses = require("../utils/responses");
 const modelController = {};
 
 modelController.create = async (req, res) => {
-    
+
     const {
         book_id,
         model_source_url,
@@ -139,6 +139,26 @@ modelController.getBySetId = async (req, res) => {
         const foundModel = await modelRepository.getBySetId(setId);
         return res.status(200).json(responses.getCustomResponse(foundModel, false));
     } catch (error) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Error! please check server log..."
+        }, true));
+    }
+};
+
+modelController.deleteModel = async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Error! please enter all fields..."
+        }, true));
+    }
+
+    try {
+        const deleteModel = await modelRepository.deleteModel(id);
+        return res.status(200).json(responses.getCustomResponse(deleteModel, false));
+    } catch (error) {
+        console.log(error);
         return res.status(400).json(responses.getCustomResponse({
             message: "Error! please check server log..."
         }, true));

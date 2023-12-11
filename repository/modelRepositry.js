@@ -52,6 +52,14 @@ modelRepository.edit = async (id, data) => {
             ...data
         }
     });
-}
+};
+
+modelRepository.deleteModel = async (modelId) => {
+    return await prisma.model.delete({
+        where: {
+            id: modelId
+        }
+    });
+};
 
 module.exports = modelRepository;

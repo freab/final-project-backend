@@ -33,11 +33,13 @@ router.get("/models", modelController.getAll);
 router.post("/models/create", modelController.create);
 router.get("/models/id/:id", modelController.getById);
 router.put("/models/edit", modelController.editModel);
+router.delete("/models/delete/:id", modelController.deleteModel);
 
 //Set Endpoints
 router.get("/sets", setController.getAll);
 router.get("/sets/id/:id", setController.getById);
 router.post("/sets/create", setController.create);
 router.put("/sets/edit", setController.editSet);
+router.delete("/sets/delete/:id", setController.delete);
 
 module.exports = router;
