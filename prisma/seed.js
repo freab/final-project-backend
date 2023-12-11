@@ -134,7 +134,7 @@ const generateModels = (count, bookIds, setIds) => {
             book_id: faker.number.int(100),
             model_source_url: faker.image.url(),
             size: options[Math.floor(Math.random() * options.length)],
-            mode_name: faker.word.words(1),
+            model_name: faker.word.words(1),
             page_number: faker.number.int({ min: 1, max: 100 }),
             set_id: faker.number.int(100),
         };

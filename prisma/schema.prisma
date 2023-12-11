@@ -49,7 +49,7 @@ model Model {
     book_id          Int
     model_source_url String?
     size             String
-    mode_name        String
+    model_name        String
     page_number      Int
     set_id           Int
     createdAt        DateTime @default(now())

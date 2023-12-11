@@ -87,7 +87,7 @@ couponController.remove = async (req, res) => {
 
     if (isNaN(id)) {
         return res.status(400).json(responses.getCustomResponse({
-            message: "Error! please check server log..."
+            message: "Please Enter all fields..."
         }, true));
     }
 

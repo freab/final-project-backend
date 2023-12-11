@@ -6,9 +6,15 @@ const bookController = {};
 bookController.create = async (req, res) => {
     const { name, author, type, cover_url } = req.body;
 
-    if (!name || !author || !type) {
+    const requiredFields = [
+        'name', 'author', 'type', 'cover_url'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
         return res.status(400).json(responses.getCustomResponse({
-            message: "Please enter all fields!!"
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
         }, true));
     }
 
@@ -30,9 +36,15 @@ bookController.create = async (req, res) => {
 bookController.editBook = async (req, res) => {
     const { id, name, author, type, cover_url } = req.body;
 
-    if (!name || !author || !type || !cover_url) {
+    const requiredFields = [
+        'id', 'name', 'author', 'type', 'cover_url'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
         return res.status(400).json(responses.getCustomResponse({
-            message: "Please enter all fields!!"
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
         }, true));
     }
 

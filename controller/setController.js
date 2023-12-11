@@ -6,9 +6,17 @@ const setController = {};
 setController.create = async (req, res) => {
     const { price, total_items, set_name } = req.body;
 
-    if (!price || !total_items || !set_name) {
+    const requiredFields = [
+        'price',
+        'total_items',
+        'set_name'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
         return res.status(400).json(responses.getCustomResponse({
-            message: "Please enter all fields"
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
         }, true));
     }
 
@@ -27,14 +35,23 @@ setController.create = async (req, res) => {
 setController.editSet = async (req, res) => {
     const { id, price, total_items, set_name } = req.body;
 
-    if (!id || !price || !total_items || !set_name) {
+    const requiredFields = [
+        'id',
+        'price',
+        'total_items',
+        'set_name'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
         return res.status(400).json(responses.getCustomResponse({
-            message: "Please enter all fields..."
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
         }, true));
     }
 
     try {
-        const updateSet = await setRepository.update(id, {
+        const updateSet = await setRepository.update(parseInt(id), {
             price, total_items, set_name
         });
 

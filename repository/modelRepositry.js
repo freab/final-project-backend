@@ -18,7 +18,7 @@ modelRepository.create = async (model) => {
 modelRepository.getAll = async (skip, take, text) => {
     return await prisma.model.findMany({
         where: {
-            name: {
+            model_name: {
                 search: text || undefined
             }
         },
