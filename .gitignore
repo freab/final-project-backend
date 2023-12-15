@@ -1,2 +1,9 @@
 .env
 node_modules
+
+config/serviceAccountKey.json
+
+# files
+.env
+hnswlib/docstore.json
+hnswlib/hnswlib.index

@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -11,15 +12,18 @@ datasource db {
 }
 
 model User {
-    id           Int      @id() @default(autoincrement())
+    id           Int       @id() @default(autoincrement())
     fname        String?
     lname        String?
     email        String?
     phone_number String?
     coupon_id    String?
     profile_url  String?
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+    last_login   DateTime?
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+
+    @@fulltext([fname, lname, email, phone_number])
 }
 
 model Book {
@@ -49,7 +53,7 @@ model Model {
     book_id          Int
     model_source_url String?
     size             String
-    model_name        String
+    model_name       String
     page_number      Int
     set_id           Int
     createdAt        DateTime @default(now())
