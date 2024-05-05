@@ -1,4 +1,3 @@
-const firebaseAuth = require("firebase/auth");
 const firebaseAdmin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
 const userRepository = require("../repository/userRepository");
@@ -8,6 +7,9 @@ const serviceAccount = require("../config/serviceAccountKey.json");
 firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(serviceAccount)
 });
+
+const firebaseAuth = require("firebase/auth");
+
 
 const userController = {};
 
@@ -207,6 +209,63 @@ userController.editProfile = async (req, res) => {
         res.status(500).json(responses.getCustomResponse(error, true));
     }
 };
+
+userController.incrementScore = async (req, res) => {
+    const userId = parseInt(req.params.userId);
+
+    if (isNaN(userId)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const updatedUser = await userRepository.incrementScore(userId);
+        return res.status(200).json(responses.getCustomResponse(updatedUser), false);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+userController.incrementScoreByFactor = async (req, res) => {
+    const { userId, factor } = req.body;
+
+    if (isNaN(userId) || isNaN(factor)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+
+    try {
+        const updatedUser = await userRepository.incrementScoreByFactor(parseInt(userId), parseInt(factor));
+        return res.status(200).json(responses.getCustomResponse(updatedUser), false);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+}
+
+userController.getScoreBoard = async (req, res) => {
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
+    const isAsc = req.query.isAsc;
+
+    if (isNaN(skip) || isNaN(take) || (isAsc === null || isAsc === undefined || isAsc === '')) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const usersList = await userRepository.getScoreBoard(take, skip, isAsc);
+        return res.status(200).json(responses.getCustomResponse(usersList, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+}
 
 userController.deleteProfile = async (req, res) => {
     const { id, email } = req.user;

@@ -19,6 +19,7 @@ model User {
     phone_number String?
     coupon_id    String?
     profile_url  String?
+    score        Int?
     last_login   DateTime?
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
@@ -32,8 +33,22 @@ model Book {
     author    String?
     type      String?
     cover_url String?
+    tags      String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@fulltext([name, author, type, tags])
+}
+
+model Page {
+    id                  Int      @id() @default(autoincrement())
+    bookId              Int
+    bookInfoContentId   String
+    pagePreviewImageUrl String
+    pageTitle           String
+    pageDescription     String
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
 }
 
 model Coupon {
@@ -46,6 +61,14 @@ model Coupon {
     coupon        String?
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
+}
+
+model UserBooks {
+    id        Int      @id() @default(autoincrement())
+    userId    Int
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Model {

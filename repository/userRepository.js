@@ -13,11 +13,51 @@ userRepository.create = async (user) => {
             phone_number: user.phone_number || undefined,
             coupon_id: undefined,
             profle_ulr: defaultProfileUrl,
+            score: 0,
             created_at: new Date(),
             updated_at: new Date()
         }
     });
 };
+
+userRepository.incrementScore = async (userId) => {
+    return await prisma.user.update({
+        data: {
+            score: {
+                increment: 1
+            }
+        },
+
+        where: {
+            id: userId
+        }
+    });
+};
+
+userRepository.getScoreBoard = async (take, skip, isAsc) => {
+    const orderByDirection = isAsc ? 'asc' : 'desc';
+    return await prisma.user.findMany({
+        orderBy: {
+            score: orderByDirection
+        },
+        skip: skip,
+        take: take
+    });
+};
+
+userRepository.incrementScoreByFactor = async (userId, factor) => {
+    return await prisma.user.update({
+        data: {
+            score: {
+                increment: 1 * factor
+            }
+        },
+
+        where: {
+            id: userId
+        }
+    });
+}
 
 userRepository.getAll = async (skip, take, orderBy, text) => {
     return await prisma.user.findMany({
