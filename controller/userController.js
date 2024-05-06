@@ -1,12 +1,6 @@
-const firebaseAdmin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
 const userRepository = require("../repository/userRepository");
 const responses = require("../utils/responses");
-const serviceAccount = require("../config/serviceAccountKey.json");
-
-firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(serviceAccount)
-});
 
 const firebaseAuth = require("firebase/auth");
 

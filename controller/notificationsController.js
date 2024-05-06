@@ -1,15 +1,9 @@
 const responses = require("../utils/responses");
-const firebaseAdmin = require("firebase-admin");
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const serviceAccount = require("../config/serviceAccountKey.json");
 const notificationsController = {};
-
-firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(serviceAccount)
-});
 
 notificationsController.sendToAll = async (req, res) => {
     const data = req.body;
