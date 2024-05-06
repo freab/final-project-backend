@@ -1,6 +1,7 @@
 const appInfoRepository = require("../repository/appInfoRepository");
 const userRepository = require("../repository/userRepository");
 const responses = require("../utils/responses");
+const os = require("os");
 
 const appInfoController = {};
 
@@ -109,7 +110,7 @@ appInfoController.getAppInfo = async (req, res) => {
 appInfoController.getAppInfoUpdateScore = async (req, res) => {
     const { userId } = req.body;
 
-    const requiredFields = ['userId']; 
+    const requiredFields = ['userId'];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
 
@@ -149,5 +150,32 @@ appInfoController.getAppInfoUpdateScore = async (req, res) => {
         res.status(500).json(responses.getCustomResponse(error, true));
     }
 }
+
+appInfoController.deviceHealth = async (req, res) => {
+    try {
+        const cpu = os.cpus();
+        const totalMemory = os.totalmem();
+        const freeMemory = os.freemem();
+        const platform = os.platform();
+        const architecture = os.arch();
+        const hostname = os.hostname();
+        const uptime = os.uptime();
+
+        const healthInfo = {
+            cpu: cpu,
+            totalMemory: totalMemory,
+            freeMemory: freeMemory,
+            platform: platform,
+            architecture: architecture,
+            hostname: hostname,
+            uptime: uptime
+        };
+
+        return res.status(200).json(responses.getCustomResponse(healthInfo, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
 
 module.exports = appInfoController;

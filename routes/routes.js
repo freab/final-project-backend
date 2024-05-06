@@ -7,6 +7,7 @@ const setController = require("../controller/setController");
 const pageController = require("../controller/pagesController");
 const uploadsController = require("../controller/uploadsController");
 const appInfoController = require("../controller/appInfoController");
+const notificationsController = require("../controller/notificationsController");
 
 //user Endpoints
 router.get("/users", userController.getAll);
@@ -63,6 +64,13 @@ router.post("/files/upload/single", uploadsController.uploadSingle);
 router.post("/appInfo/create", appInfoController.create);
 router.post("/appInfo/welcome", appInfoController.getAppInfoUpdateScore);
 router.get("/appInfo", appInfoController.getAppInfo);
+router.get("/appInfo/health", appInfoController.deviceHealth);
 router.put("/appInfo/edit", appInfoController.editAppInfo);
+
+//notifications
+router.post("/notofications/send/all", notificationsController.sendToAll);
+router.post("/notifications/send/topic/:topic", notificationsController.sendToTopic);
+router.post("/notifications/send/to", notificationsController.sendToDevice);
+router.post("/notifications/send/user", notificationsController.sendToUser);
 
 module.exports = router;

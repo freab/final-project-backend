@@ -85,11 +85,10 @@ notificationsController.sendToTopic = async (req, res) => {
 };
 
 notificationsController.sendToDevice = async (req, res) => {
-    const data = req.body;
-    const { deviceToken } = req.params; // Assuming the device token is provided in the request parameters
+    const { deviceToken, data } = req.body; // Assuming the device token is provided in the request parameters
 
     const requiredFields = [
-        'data'
+        'data', 'deviceToken'
     ];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
