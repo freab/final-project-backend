@@ -2,6 +2,7 @@ const appInfoRepository = require("../repository/appInfoRepository");
 const userRepository = require("../repository/userRepository");
 const responses = require("../utils/responses");
 const os = require("os");
+const si = require("systeminformation");
 
 const appInfoController = {};
 
@@ -154,21 +155,32 @@ appInfoController.getAppInfoUpdateScore = async (req, res) => {
 appInfoController.deviceHealth = async (req, res) => {
     try {
         const cpu = os.cpus();
-        const totalMemory = os.totalmem();
-        const freeMemory = os.freemem();
+        const totalMemoryBytes = os.totalmem();
+        const freeMemoryBytes = os.freemem();
+        const totalMemoryMb = Math.round(totalMemoryBytes / 1024 / 1024);
+        const freeMemoryMb = Math.round(freeMemoryBytes / 1024 / 1024);
         const platform = os.platform();
         const architecture = os.arch();
         const hostname = os.hostname();
-        const uptime = os.uptime();
+        const uptimeSec = Math.round(os.uptime());
+
+        const disks = await si.fsSize();
+        const storage = disks.map(disk => ({
+            mount: disk.mount,
+            total: Math.round(disk.size / 1024 / 1024 / 1024), // Convert to GB
+            used: Math.round(disk.used / 1024 / 1024 / 1024), // Convert to GB
+            available: Math.round(disk.available / 1024 / 1024 / 1024) // Convert to GB
+        }));
 
         const healthInfo = {
             cpu: cpu,
-            totalMemory: totalMemory,
-            freeMemory: freeMemory,
+            totalMemoryMb: totalMemoryMb,
+            freeMemoryMb: freeMemoryMb,
             platform: platform,
             architecture: architecture,
             hostname: hostname,
-            uptime: uptime
+            uptimeSec: uptimeSec,
+            storage: storage
         };
 
         return res.status(200).json(responses.getCustomResponse(healthInfo, false));
