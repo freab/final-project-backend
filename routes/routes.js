@@ -6,6 +6,7 @@ const modelController = require("../controller/modelController");
 const setController = require("../controller/setController");
 const pageController = require("../controller/pagesController");
 const uploadsController = require("../controller/uploadsController");
+const appInfoController = require("../controller/appInfoController");
 
 //user Endpoints
 router.get("/users", userController.getAll);
@@ -57,5 +58,11 @@ router.delete("/pages/delete/:pageId", pageController.delete);
 
 //files
 router.post("/files/upload/single", uploadsController.uploadSingle);
+
+//appInfo
+router.post("/appInfo/create", appInfoController.create);
+router.post("/appInfo/welcome", appInfoController.getAppInfoUpdateScore);
+router.get("/appInfo", appInfoController.getAppInfo);
+router.put("/appInfo/edit", appInfoController.editAppInfo);
 
 module.exports = router;

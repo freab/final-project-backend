@@ -35,6 +35,30 @@ userController.getAll = async (req, res) => {
     }
 };
 
+userController.updateDeviceToken = async (req, res) => {
+    const { userId, deviceToken } = req.body;
+
+    const requiredFields = [
+        'userId', 'deviceToken'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
+        }, true));
+    }
+
+    try {
+        const updateDeviceTokenForUser = await userRepository.updateDeviceToken(userId, deviceToken);
+        return res.status(200).json(responses.getCustomResponse(updateDeviceTokenForUser, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
 userController.loginWithGoogle = async (req, res) => {
     const { idToken } = req.body;
 
@@ -46,6 +70,7 @@ userController.loginWithGoogle = async (req, res) => {
 
     try {
         const auth = firebaseAdmin.auth();
+        console.log(firebaseAdmin);
 
         const ticket = await auth.verifyIdToken(idToken);
         const { email, name, picture, phone_number, auth_time } = ticket;
@@ -61,6 +86,7 @@ userController.loginWithGoogle = async (req, res) => {
                         phone_number: phone_number,
                         email: email,
                         profile_url: picture,
+                        score: 0,
                         last_login: new Date(auth_time)
                     });
                 }

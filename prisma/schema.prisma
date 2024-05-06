@@ -17,14 +17,29 @@ model User {
     lname        String?
     email        String?
     phone_number String?
-    coupon_id    String?
     profile_url  String?
     score        Int?
     last_login   DateTime?
+    deviceToken  String?   @default("no-token")
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
 
     @@fulltext([fname, lname, email, phone_number])
+}
+
+model AppInfo {
+    id                Int    @id() @default(autoincrement())
+    appVersionName    String
+    appVersionNumber  Int
+    currentAction     String
+    appNewFeature     String
+    updateUrl         String
+    resourceType      String
+    noticeMessage     String
+    noticeMessageType String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Book {

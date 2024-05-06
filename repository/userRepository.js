@@ -49,7 +49,7 @@ userRepository.incrementScoreByFactor = async (userId, factor) => {
     return await prisma.user.update({
         data: {
             score: {
-                increment: 1 * factor
+                increment: factor
             }
         },
 
@@ -57,7 +57,18 @@ userRepository.incrementScoreByFactor = async (userId, factor) => {
             id: userId
         }
     });
-}
+};
+
+userRepository.updateDeviceToken = async (userId, deviceIdToken) => {
+    return await prisma.user.update({
+        data: {
+            deviceToken: deviceIdToken
+        },
+        where: {
+            id: userId
+        }
+    });
+};
 
 userRepository.getAll = async (skip, take, orderBy, text) => {
     return await prisma.user.findMany({
