@@ -12,7 +12,13 @@ const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 const routes = require("./routes/routes");
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+const customStream = {
+    write: (message) => {
+        console.log(message.trim());
+    }
+};
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms', { stream: customStream }));
 app.use(cors());
 app.use(express.json());
 app.use("/api/v1", routes);
