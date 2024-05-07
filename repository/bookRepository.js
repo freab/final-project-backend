@@ -46,6 +46,13 @@ bookRepository.getById = async (id) => {
     });
 };
 
+bookRepository.getRandom = async (take) => {
+    return await prisma.book.findMany({
+        orderBy: raw`random()`,
+        take: take
+    });
+}
+
 bookRepository.getBookByType = async (bookType) => {
     return await prisma.book.findMany({
         where: {

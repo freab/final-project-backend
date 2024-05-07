@@ -5,23 +5,23 @@ const prisma = new PrismaClient();
 const deleteAllData = async () => {
     try {
         // Disable foreign key checks to allow deleting data from related tables
-        await prisma.$queryRaw('SET FOREIGN_KEY_CHECKS = 0');
+        await prisma.$queryRaw`SET FOREIGN_KEY_CHECKS = 0`;
 
         // Get all table names
-        const tables = await prisma.$queryRaw(`
+        const tables = await prisma.$queryRaw`
         SELECT table_name
         FROM information_schema.tables
         WHERE table_schema = DATABASE()
-      `);
+      `;
 
         // Delete all data from each table
         for (const table of tables) {
             const tableName = table.table_name;
-            await prisma.$queryRaw(`DELETE FROM ${tableName}`);
+            await prisma.$queryRaw`DELETE FROM ${tableName}`;
         }
 
         // Enable foreign key checks again
-        await prisma.$queryRaw('SET FOREIGN_KEY_CHECKS = 1');
+        await prisma.$queryRaw`SET FOREIGN_KEY_CHECKS = 1`;
 
         console.log('All data deleted successfully!');
     } catch (error) {
@@ -40,8 +40,10 @@ const generateUsers = (count) => {
             lname: faker.person.lastName(),
             email: faker.internet.email(),
             phone_number: faker.phone.number(),
-            coupon_id: faker.string.alpha(10),
             profile_url: faker.image.avatar(),
+            score: faker.number.int(),
+            last_login: faker.date.anytime(),
+            deviceToken: faker.string.alphanumeric(15),
         };
 
         users.push(user);
@@ -49,6 +51,24 @@ const generateUsers = (count) => {
 
     return users;
 };
+
+const generatePages = (count) => {
+    const pages = [];
+
+    for (let i = 0; i < count; i++) {
+        const page = {
+            bookId: faker.number.int(count),
+            bookInfoContentId: `${faker.string.alphanumeric(6)}.md`,
+            pagePreviewImageUrl: faker.image.urlPicsumPhotos(),
+            pageTitle: "",
+            pageDescription: faker.lorem.sentence(3),
+        }
+
+        pages.push(page);
+    }
+
+    return pages;
+}
 
 const generateBooks = (count) => {
     const books = [];
@@ -59,6 +79,7 @@ const generateBooks = (count) => {
             author: faker.person.firstName(),
             type: faker.word.words(1),
             cover_url: faker.image.url(),
+            tags: faker.word.words(5),
         };
 
         books.push(book);
@@ -88,6 +109,18 @@ const seedBooks = async () => {
 
     console.log('Books created successfully!');
 };
+
+const seedPages = async () => {
+    const pages = generatePages(10);
+    console.log(pages);
+
+    await prisma.page.createMany({
+        data: pages,
+        skipDuplicates: true
+    });
+
+    console.log('Pages created successfully!');
+}
 
 const generateCoupons = (count, userIds, bookIds) => {
     const coupons = [];
@@ -194,7 +227,8 @@ async function main() {
     /* if (process.argv.includes('--delete-data')) {
         await deleteAllData();
     } */
-    await deleteAllData();
+    //await deleteAllData();
+    await seedPages();
     await seedUsers();
     await seedBooks();
     await seedCoupons();

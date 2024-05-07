@@ -97,6 +97,25 @@ bookController.getById = async (req, res) => {
     }
 };
 
+//not actually featured. but more like random books lol
+bookController.getFeatured = async (req, res) => {
+    const skip = parseInt(req.query.skip);
+
+    if (isNaN(skip)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+    
+    try {
+        const randomBooks = await bookRepository.getRandom(take);
+        return res.status(200).json(responses.getCustomResponse(randomBooks, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+}
+
 bookController.getByType = async (req, res) => {
     const { type } = req.query;
 
