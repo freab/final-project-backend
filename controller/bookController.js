@@ -108,7 +108,7 @@ bookController.getFeatured = async (req, res) => {
     }
     
     try {
-        const randomBooks = await bookRepository.getRandom(take);
+        const randomBooks = await bookRepository.getRandomRaw(take);
         return res.status(200).json(responses.getCustomResponse(randomBooks, false));
     } catch (error) {
         console.log(error);

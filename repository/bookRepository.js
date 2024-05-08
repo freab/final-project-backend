@@ -53,6 +53,11 @@ bookRepository.getRandom = async (take) => {
     });
 }
 
+bookRepository.getRandomRaw = async (take) => {
+    const takeInt = parseInt(take);
+    return await prisma.$queryRaw`SELECT * FROM Book ORDER BY RAND() LIMIT ${takeInt}`;
+}
+
 bookRepository.getBookByType = async (bookType) => {
     return await prisma.book.findMany({
         where: {
