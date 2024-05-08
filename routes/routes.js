@@ -24,6 +24,7 @@ router.get("/users/score/board", userController.getScoreBoard);
 router.get("/books", bookController.getAll);
 router.get("/books/id/:id", bookController.getById);
 router.get("/books/type", bookController.getByType);
+router.get("/books/featured", bookController.getFeatured);
 router.post("/books/create", bookController.create);
 router.put("/books/edit", bookController.editBook);
 router.delete("/books/delete/:id", bookController.remove);
