@@ -99,9 +99,9 @@ bookController.getById = async (req, res) => {
 
 //not actually featured. but more like random books lol
 bookController.getFeatured = async (req, res) => {
-    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
 
-    if (isNaN(skip)) {
+    if (isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
