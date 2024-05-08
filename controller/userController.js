@@ -11,6 +11,7 @@ const userController = {};
 userController.getAll = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
+    const text = req.query.text;
 
     console.log("skip: " + skip + " and take: " + take);
 
@@ -21,8 +22,13 @@ userController.getAll = async (req, res) => {
     }
 
     try {
-        const users = await userRepository.getAll(skip, take);
-        res.status(200).json(responses.getCustomResponse(users, false));
+        let getAllUsers;
+        if (text && text.trim() !== '') {
+            getAllUsers = await userRepository.getAll(skip, take, text);
+        } else {
+            getAllUsers = await userRepository.getAll(skip, take);
+        }
+        res.status(200).json(responses.getCustomResponse(getAllUsers, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

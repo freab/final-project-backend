@@ -74,10 +74,8 @@ bookController.getAll = async (req, res) => {
     try {
         let getAllBooks;
         if (text && text.trim() !== '') {
-            console.log("going with search");
             getAllBooks = await bookRepository.getAll(skip, take, text);
         } else {
-            console.log("going with out search");
             getAllBooks = await bookRepository.getAll(skip, take);
         }
         return res.status(200).json(responses.getCustomResponse(getAllBooks, false));
