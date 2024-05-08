@@ -63,6 +63,7 @@ bookController.editBook = async (req, res) => {
 bookController.getAll = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
+    const text = req.query.text;
 
     if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
@@ -71,7 +72,14 @@ bookController.getAll = async (req, res) => {
     }
 
     try {
-        const getAllBooks = await bookRepository.getAll(skip, take);
+        let getAllBooks;
+        if (text && text.trim() !== '') {
+            console.log("going with search");
+            getAllBooks = await bookRepository.getAll(skip, take, text);
+        } else {
+            console.log("going with out search");
+            getAllBooks = await bookRepository.getAll(skip, take);
+        }
         return res.status(200).json(responses.getCustomResponse(getAllBooks, false));
     } catch (error) {
         console.log(error);
@@ -106,7 +114,7 @@ bookController.getFeatured = async (req, res) => {
             message: "Please enter all fields!!"
         }, true));
     }
-    
+
     try {
         const randomBooks = await bookRepository.getRandomRaw(take);
         return res.status(200).json(responses.getCustomResponse(randomBooks, false));

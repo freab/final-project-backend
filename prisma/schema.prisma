@@ -24,6 +24,20 @@ model User {
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
 
+    @@fulltext([fname])
+    @@fulltext([lname])
+    @@fulltext([email])
+    @@fulltext([phone_number])
+    @@fulltext([fname, lname])
+    @@fulltext([fname, email])
+    @@fulltext([fname, phone_number])
+    @@fulltext([lname, email])
+    @@fulltext([lname, phone_number])
+    @@fulltext([email, phone_number])
+    @@fulltext([fname, lname, email])
+    @@fulltext([fname, lname, phone_number])
+    @@fulltext([fname, email, phone_number])
+    @@fulltext([lname, email, phone_number])
     @@fulltext([fname, lname, email, phone_number])
 }
 
@@ -52,6 +66,20 @@ model Book {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@fulltext([name])
+    @@fulltext([author])
+    @@fulltext([type])
+    @@fulltext([tags])
+    @@fulltext([name, author])
+    @@fulltext([name, type])
+    @@fulltext([name, tags])
+    @@fulltext([author, type])
+    @@fulltext([author, tags])
+    @@fulltext([type, tags])
+    @@fulltext([name, author, type])
+    @@fulltext([name, author, tags])
+    @@fulltext([name, type, tags])
+    @@fulltext([author, type, tags])
     @@fulltext([name, author, type, tags])
 }
 

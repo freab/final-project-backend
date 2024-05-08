@@ -32,6 +32,9 @@ bookRepository.getAll = async (skip, take, text, orderBy) => {
             type: {
                 search: text || undefined
             },
+            tags: {
+                search: text || undefined
+            }
         },
         skip: skip || undefined,
         take: take || undefined
