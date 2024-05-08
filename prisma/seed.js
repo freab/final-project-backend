@@ -89,7 +89,7 @@ const generateBooks = (count) => {
 };
 
 const seedUsers = async () => {
-    const users = generateUsers(10);
+    const users = generateUsers(20);
 
     await prisma.user.createMany({
         data: users,
@@ -100,7 +100,7 @@ const seedUsers = async () => {
 };
 
 const seedBooks = async () => {
-    const books = generateBooks(10);
+    const books = generateBooks(20);
 
     await prisma.book.createMany({
         data: books,
@@ -111,9 +111,8 @@ const seedBooks = async () => {
 };
 
 const seedPages = async () => {
-    const pages = generatePages(10);
-    console.log(pages);
-
+    const pages = generatePages(20);
+    
     await prisma.page.createMany({
         data: pages,
         skipDuplicates: true
@@ -148,7 +147,7 @@ const seedCoupons = async () => {
     const userIds = users.map((user) => user.id);
     const bookIds = books.map((book) => book.id);
 
-    const coupons = generateCoupons(10, userIds, bookIds);
+    const coupons = generateCoupons(20, userIds, bookIds);
 
     await prisma.coupon.createMany({
         data: coupons,
@@ -201,7 +200,7 @@ const seedModels = async () => {
     const bookIds = books.map((book) => book.id);
     const setIds = sets.map((set) => set.id);
 
-    const models = generateModels(10, bookIds, setIds);
+    const models = generateModels(20, bookIds, setIds);
 
     await prisma.model.createMany({
         data: models,
@@ -212,7 +211,7 @@ const seedModels = async () => {
 };
 
 const seedSets = async () => {
-    const sets = generateSets(5);
+    const sets = generateSets(25);
 
     await prisma.set.createMany({
         data: sets,
