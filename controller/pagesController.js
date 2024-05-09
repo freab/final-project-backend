@@ -4,10 +4,10 @@ const responses = require("../utils/responses");
 const pageController = {};
 
 pageController.create = async (req, res) => {
-    const { bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription } = req.body;
+    const { bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription, modelId } = req.body;
 
     const requiredFields = [
-        'bookId', 'bookInfoContentId', 'pagePreviewImageUrl', 'pageTitle', 'pageDescription'
+        'bookId', 'bookInfoContentId', 'pagePreviewImageUrl', 'pageTitle', 'pageDescription', 'modelId'
     ];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
@@ -20,7 +20,7 @@ pageController.create = async (req, res) => {
 
     try {
         const createPage = await pagesRepository.createPage({
-            bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription
+            bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription, modelId
         });
 
         return res.status(200).json(responses.getCustomResponse(createPage, false));
@@ -31,10 +31,10 @@ pageController.create = async (req, res) => {
 };
 
 pageController.editPage = async (req, res) => {
-    const { id, bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription } = req.body;
+    const { id, bookId, bookInfoContentId, pagePreviewImageUrl, pageTitle, pageDescription, modelId } = req.body;
 
     const requiredFields = [
-        'id', 'bookId', 'bookInfoContentId', 'pagePreviewImageUrl', 'pageTitle', 'pageDescription'
+        'id', 'bookId', 'bookInfoContentId', 'pagePreviewImageUrl', 'pageTitle', 'pageDescription', 'modelId'
     ];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);

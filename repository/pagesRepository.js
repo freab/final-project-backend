@@ -9,7 +9,8 @@ pagesRepository.createPage = async (page) => {
             bookInfoContentId: page.bookInfoContentId,
             pagePreviewImageUrl: page.pagePreviewImageUrl,
             pageTitle: page.pageTitle,
-            pageDescription: page.pageDescription
+            pageDescription: page.pageDescription,
+            modelId: page.modelId
         }
     });
 }

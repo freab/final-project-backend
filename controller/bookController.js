@@ -4,10 +4,10 @@ const responses = require("../utils/responses");
 const bookController = {};
 
 bookController.create = async (req, res) => {
-    const { name, author, type, cover_url } = req.body;
+    const { name, author, type, cover_url, description, price } = req.body;
 
     const requiredFields = [
-        'name', 'author', 'type', 'cover_url'
+        'name', 'author', 'type', 'cover_url', 'description', 'price'
     ];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
@@ -23,7 +23,9 @@ bookController.create = async (req, res) => {
             name,
             author,
             type,
-            cover_url
+            cover_url,
+            description,
+            price
         });
 
         return res.status(200).json(responses.getCustomResponse(createBook, false));
@@ -34,10 +36,10 @@ bookController.create = async (req, res) => {
 };
 
 bookController.editBook = async (req, res) => {
-    const { id, name, author, type, cover_url } = req.body;
+    const { id, name, author, type, cover_url, description, price } = req.body;
 
     const requiredFields = [
-        'id', 'name', 'author', 'type', 'cover_url'
+        'id', 'name', 'author', 'type', 'cover_url', 'description', 'price'
     ];
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
@@ -50,7 +52,7 @@ bookController.editBook = async (req, res) => {
 
     try {
         const updateBook = await bookRepository.edit(id, {
-            name, author, type, cover_url
+            name, author, type, cover_url, description, price
         });
 
         return res.status(200).json(responses.getCustomResponse(updateBook, false));

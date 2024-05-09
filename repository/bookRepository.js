@@ -8,7 +8,10 @@ bookRepository.create = async (book) => {
             name: book.name,
             author: book.author,
             type: book.type,
-            cover_url: book.cover_url
+            cover_url: book.cover_url,
+            tags: book.tags,
+            description: book.description,
+            price: book.price
         }
     });
 };

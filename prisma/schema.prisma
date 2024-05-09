@@ -57,14 +57,16 @@ model AppInfo {
 }
 
 model Book {
-    id        Int      @id() @default(autoincrement())
-    name      String?
-    author    String?
-    type      String?
-    cover_url String?
-    tags      String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          Int      @id() @default(autoincrement())
+    name        String?
+    author      String?
+    type        String?
+    cover_url   String?
+    tags        String?
+    description String?
+    price       Int      @default(5)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
     @@fulltext([name])
     @@fulltext([author])
@@ -90,6 +92,7 @@ model Page {
     pagePreviewImageUrl String
     pageTitle           String
     pageDescription     String
+    modelId             Int
     createdAt           DateTime @default(now())
     updatedAt           DateTime @updatedAt
 }
