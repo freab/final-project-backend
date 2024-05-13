@@ -15,8 +15,11 @@ couponRepository.create = async (coupon) => {
     });
 };
 
-couponRepository.getAll = async (skip, take, orderBy) => {
+couponRepository.getAll = async (skip, take, isRedeemed) => {
     return await prisma.coupon.findMany({
+        where: {
+            is_redeemed: isRedeemed || undefined
+        },
         skip: skip,
         take: take
     });
@@ -27,6 +30,44 @@ couponRepository.getById = async (couponId) => {
         where: {
             id: couponId
         }
+    });
+};
+
+couponRepository.redeemCoupon = async (couponString, bookId, userId) => {
+    return await prisma.coupon.update({
+        where: {
+            book_id: bookId,
+            user_id: userId,
+            coupon: couponString
+        },
+        data: {
+            is_redeemed: true,
+            user_id: userId,
+            book_id: bookId
+        }
+    })
+};
+
+couponRepository.isRedeemed = async (couponString) => {
+    const coupon = await prisma.coupon.findFirst({
+        where: {
+            coupon: couponString
+        },
+        select: {
+            isRedeemed: true
+        }
+    });
+
+    return coupon ? coupon.is_redeemed : false;
+}
+
+
+couponRepository.getByBookId = async (bookId, skip, take) => {
+    return await prisma.coupon.findMany({
+        where: {
+            book_id: bookId
+        },
+        skip, take
     });
 };
 

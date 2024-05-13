@@ -1,4 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
+const couponRepository = require("./couponRepository");
+const userBooksRepository = require("./userBooksRepository");
 const bookRepository = {};
 const prisma = new PrismaClient();
 
@@ -82,6 +84,46 @@ bookRepository.edit = async (id, data) => {
         }
     });
 };
+
+bookRepository.activateBookByCoupon = async (bookId, userId, couponString) => {
+    const { bookId, userId, couponString } = req.body;
+
+    const requiredFields = [
+        'bookId', 'userId', 'couponString'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
+        }, true));
+    }
+
+    try {
+        const isCouponRedeemed = await couponRepository.isRedeemed(couponString);
+
+        if (!isCouponRedeemed) {
+            const userBook = {
+                userId, bookId
+            }
+
+            const createUserBook = await userBooksRepository.create(userBook);
+            const redeemCoupon = await couponRepository.redeemCoupon(couponString, bookId, userId);
+
+            if (createUserBook && redeemCoupon) {
+                return res.status(200).json(responses.getCustomResponse("Successfully activated coupon!", false));
+            } else {
+                return res.status(500).json(responses.getCustomResponse("Oops! something was wrong!", false));
+            }
+        } else {
+            return res.status(400).json(responses.getCustomResponse("Successfully activated coupon!", false));
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(responses.getCustomResponse(error, true));
+    }
+}
 
 bookRepository.remove = async (bookId) => {
     return await prisma.book.delete({
