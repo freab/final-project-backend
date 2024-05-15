@@ -1,5 +1,6 @@
 const bookRepository = require("../repository/bookRepository");
 const responses = require("../utils/responses");
+const util = require('util');
 
 const bookController = {};
 
@@ -102,6 +103,101 @@ bookController.getById = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+bookController.activateBookByCoupon = async (req, res) => {
+    const { bookId, userId, couponString } = req.body;
+
+    const requiredFields = [
+        'bookId', 'userId', 'couponString'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
+        }, true));
+    }
+
+
+    try {
+        const result = await bookRepository.activateBookByCoupon(bookId, userId, couponString);
+
+        if (result.success) {
+            return res.status(200).json(responses.getCustomResponse({
+                message: "Successfully activated coupon!"
+            }, false));
+        } else {
+            return res.status(400).json(responses.getCustomResponse({
+                message: result.error
+            }, true));
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json(responses.getCustomResponse({
+            message: "An error occurred while activating the coupon."
+        }, true));
+    }
+};
+
+bookController.getChapaLink = async (req, res) => {
+    const { userId, bookId } = req.body;
+
+    const requiredFields = ['userId', 'bookId'];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
+        }, true));
+    }
+
+    try {
+        const result = await bookRepository.getChapaLink(userId, bookId);
+
+        if (result.success) {
+            return res.status(200).json(responses.getCustomResponse({
+                checkoutUrl: result.checkoutUrl
+            }, false));
+        } else {
+            return res.status(400).json(responses.getCustomResponse({
+                message: result.error
+            }, true));
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json(responses.getCustomResponse({
+            message: "An error occurred while processing the request."
+        }, true));
+    }
+};
+
+bookController.paymentCallback = async (req, res) => {
+    const event = req.body;    
+    //const eventbody = util.inspect(req, { depth: null });
+
+    console.log("event-body", event);
+
+    try {
+        const result = await bookRepository.paymentCallback(event);
+
+        if (result.success) {
+            return res.status(200).json(responses.getCustomResponse({
+                message: result.message
+            }, false));
+        } else {
+            return res.status(400).json(responses.getCustomResponse({
+                message: result.error
+            }, true));
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json(responses.getCustomResponse({
+            message: "An error occurred while processing the payment callback."
+        }, true));
     }
 };
 

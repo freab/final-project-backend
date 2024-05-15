@@ -20,6 +20,14 @@ userRepository.create = async (user) => {
     });
 };
 
+userRepository.getById = async (userId) => {
+    return await prisma.user.findFirst({
+        where: {
+            id: userId
+        }
+    });
+}
+
 userRepository.incrementScore = async (userId) => {
     return await prisma.user.update({
         data: {

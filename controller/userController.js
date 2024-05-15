@@ -236,6 +236,24 @@ userController.editProfile = async (req, res) => {
     }
 };
 
+userController.getUserById = async (req, res) => {
+    const userId = req.params.userId;
+
+    if (isNaN(userId)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const getUserById = await userRepository.getById(userId);
+        return res.status(200).json(responses.getCustomResponse(getUserById, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+}
+
 userController.incrementScore = async (req, res) => {
     const userId = parseInt(req.params.userId);
 

@@ -62,6 +62,7 @@ const generatePages = (count) => {
             pagePreviewImageUrl: faker.image.urlPicsumPhotos(),
             pageTitle: "",
             pageDescription: faker.lorem.sentence(3),
+            modelId: faker.number.int({ min: 100, max: 1500 }),
         }
 
         pages.push(page);

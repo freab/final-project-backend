@@ -11,6 +11,7 @@ const notificationsController = require("../controller/notificationsController")
 
 //user Endpoints
 router.get("/users", userController.getAll);
+router.get("/users/id/:userId", userController.getUserById);
 router.post("/users/google-signIn", userController.loginWithGoogle);
 router.post("/users/login-email", userController.loginWithEmail);
 router.put("/users/refresh", userController.referesh);
@@ -26,6 +27,12 @@ router.get("/books/id/:id", bookController.getById);
 router.get("/books/type", bookController.getByType);
 router.get("/books/featured", bookController.getFeatured);
 router.post("/books/create", bookController.create);
+router.post("/books/activate/coupon", bookController.activateBookByCoupon);
+router.post("/books/buy", bookController.getChapaLink);
+router.post("/books/callback", bookController.paymentCallback);
+router.get("/books/callback", bookController.paymentCallback);
+router.options("/books/callback", bookController.paymentCallback);
+//router.post("/books/return", bookController.paymentReturn);
 router.put("/books/edit", bookController.editBook);
 router.delete("/books/delete/:id", bookController.remove);
 
