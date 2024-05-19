@@ -41,7 +41,7 @@ pagesRepository.edit = async (pageId, data) => {
     });
 }
 
-pagesRepository.getByBookId = async (skip, take, bookId) => {
+pagesRepository.getByBookId = async (bookId, skip, take, ) => {
     return await prisma.page.findMany({
         where: {
             bookId: bookId

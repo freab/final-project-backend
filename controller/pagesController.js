@@ -95,7 +95,7 @@ pageController.getById = async (req, res) => {
 }
 
 pageController.getByBookId = async (req, res) => {
-    const bookId = parseInt(req.param.bookId);
+    const bookId = parseInt(req.params.bookId);
 
     if (isNaN(bookId)) {
         return res.status(400).json(responses.getCustomResponse({
