@@ -81,6 +81,8 @@ const generateBooks = (count) => {
             type: faker.word.words(1),
             cover_url: faker.image.url(),
             tags: faker.word.words(5),
+            description: faker.lorem.paragraph(8),
+            price: faker.number.int(10, 400)
         };
 
         books.push(book);
@@ -103,6 +105,8 @@ const seedUsers = async () => {
 const seedBooks = async () => {
     const books = generateBooks(20);
 
+    console.log(books);
+
     await prisma.book.createMany({
         data: books,
         skipDuplicates: true,
@@ -113,7 +117,7 @@ const seedBooks = async () => {
 
 const seedPages = async () => {
     const pages = generatePages(20);
-    
+
     await prisma.page.createMany({
         data: pages,
         skipDuplicates: true

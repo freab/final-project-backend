@@ -8,6 +8,7 @@ const pageController = require("../controller/pagesController");
 const uploadsController = require("../controller/uploadsController");
 const appInfoController = require("../controller/appInfoController");
 const notificationsController = require("../controller/notificationsController");
+const userBooksController = require("../controller/userBookController");
 
 //user Endpoints
 router.get("/users", userController.getAll);
@@ -20,6 +21,13 @@ router.put("/users/delete-profile", userController.deleteProfile);
 router.put("/users/score/update/:userId", userController.incrementScore);
 router.put("/users/score/update/factor/:userId/:factor", userController.incrementScoreByFactor);
 router.get("/users/score/board", userController.getScoreBoard);
+
+//userbooks Endpoints
+router.get("/user-books/userId", userBooksController.getByUserId);
+router.get("/user-books/bookId", userBooksController.getOwnedBooksByBookId);
+router.get("/user-books/owns-book", userBooksController.ownsThisBook);
+router.put("/user-books/update-progres/amount", userBooksController.updateBookProgressByAmount);
+router.put("/user-books/update-progress/increment", userBooksController.updateBookProgressByIncrement);
 
 //book Endpoints
 router.get("/books", bookController.getAll);

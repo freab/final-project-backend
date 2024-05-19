@@ -36,7 +36,7 @@ bookRepository.createMany = async (books) => {
     });
 };
 
-bookRepository.getAll = async (skip, take, text, orderBy) => {
+bookRepository.getAll = async (skip, take, text) => {
     return await prisma.book.findMany({
         where: {
             name: {

@@ -63,7 +63,7 @@ model Book {
     type        String?
     cover_url   String?
     tags        String?
-    description String?
+    description String?  @db.VarChar(1000)
     price       Int      @default(5)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
@@ -99,11 +99,11 @@ model Page {
 
 model Coupon {
     id            Int      @id() @default(autoincrement())
-    user_id       Int
+    user_id       Int?
     redeemed_date String?
-    is_redeemed   Boolean
+    is_redeemed   Boolean  @default(false)
     price         Int
-    book_id       Int
+    book_id       Int?
     coupon        String?
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
@@ -119,13 +119,13 @@ model UserBooks {
 }
 
 model Transactions {
-    id        Int      @id() @default(autoincrement())
-    userId Int
-    bookId Int 
-    status Int
+    id             Int      @id() @default(autoincrement())
+    userId         Int
+    bookId         Int
+    status         Int
     transactionRef String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
 }
 
 model Model {

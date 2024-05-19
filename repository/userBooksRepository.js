@@ -70,6 +70,17 @@ const userBooksRepository = {
                 }
             }
         });
+    },
+
+    ownsThisBook: async (bookId, userId) => {
+        const userBook = await prisma.userBooks.findFirst({
+            where: {
+                bookId: bookId,
+                userId: userId
+            }
+        });
+
+        return userBook !== null;
     }
 };
 
