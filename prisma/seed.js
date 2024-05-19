@@ -136,7 +136,7 @@ const generateCoupons = (count, userIds, bookIds) => {
             is_redeemed: faker.datatype.boolean(),
             price: faker.number.int({ min: 100, max: 1500 }),
             book_id: faker.number.int(),
-            coupon: faker.string.alphanumeric(10),
+            coupon: faker.string.alphanumeric(6).toUpperCase(),
         };
 
         coupons.push(coupon);

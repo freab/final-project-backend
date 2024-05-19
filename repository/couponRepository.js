@@ -34,11 +34,17 @@ couponRepository.getById = async (couponId) => {
 };
 
 couponRepository.redeemCoupon = async (couponString, bookId, userId) => {
+    const couponToRedeem = await prisma.coupon.findFirst({
+        where: {
+            coupon: couponString
+        }
+    });
+
+    console.log(couponToRedeem);
+
     return await prisma.coupon.update({
         where: {
-            book_id: bookId,
-            user_id: userId,
-            coupon: couponString
+            id: couponToRedeem.id
         },
         data: {
             is_redeemed: true,
@@ -54,12 +60,25 @@ couponRepository.isRedeemed = async (couponString) => {
             coupon: couponString
         },
         select: {
-            isRedeemed: true
+            is_redeemed: true
         }
     });
 
     return coupon ? coupon.is_redeemed : false;
-}
+};
+
+couponRepository.exists = async (couponString) => {
+    const coupon = await prisma.coupon.findFirst({
+        where: {
+            coupon: couponString
+        },
+        select: {
+            id: true
+        }
+    });
+
+    return coupon ? true : false;
+};
 
 
 couponRepository.getByBookId = async (bookId, skip, take) => {

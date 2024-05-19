@@ -103,23 +103,31 @@ bookRepository.activateBookByCoupon = async (bookId, userId, couponString) => {
     };
 
     try {
-        const isCouponRedeemed = await couponRepository.isRedeemed(couponString);
+        // Check if the coupon exists
+        const isCouponExists = await couponRepository.exists(couponString);
 
-        if (!isCouponRedeemed) {
-            const userBook = {
-                userId, bookId
-            };
+        if (isCouponExists) {
+            // Check if the coupon is already redeemed
+            const isCouponRedeemed = await couponRepository.isRedeemed(couponString);
 
-            const createUserBook = await userBooksRepository.create(userBook);
-            const redeemCoupon = await couponRepository.redeemCoupon(couponString, bookId, userId);
+            if (!isCouponRedeemed) {
+                const userBook = {
+                    userId, bookId
+                };
 
-            if (createUserBook && redeemCoupon) {
-                result.success = true;
+                const createUserBook = await userBooksRepository.create(userBook);
+                const redeemCoupon = await couponRepository.redeemCoupon(couponString, bookId, userId);
+
+                if (createUserBook && redeemCoupon) {
+                    result.success = true;
+                } else {
+                    result.error = "Oops! Something went wrong!";
+                }
             } else {
-                result.error = "Oops! Something went wrong!";
+                result.error = "Coupon has already been redeemed!";
             }
         } else {
-            result.error = "Coupon has already been redeemed!";
+            result.error = "Coupon does not exist!";
         }
     } catch (error) {
         console.error(error);
