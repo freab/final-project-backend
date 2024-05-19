@@ -118,10 +118,8 @@ userBooksController.ownsThisBook = async (req, res) => {
     }
 
     try {
-        setTimeout(async () => {
-            const ownsThisBook = await userBooksRepository.ownsThisBook(bookId, userId);
-            return res.status(200).json(responses.getCustomResponse(ownsThisBook, false));
-        }, 5000); 
+        const ownsThisBook = await userBooksRepository.ownsThisBook(bookId, userId);
+        return res.status(200).json(responses.getCustomResponse(ownsThisBook, false));
     } catch (error) {
         console.log(error);
         return res.status(500).json(responses.getCustomResponse(error, true));

@@ -40,8 +40,6 @@ couponRepository.redeemCoupon = async (couponString, bookId, userId) => {
         }
     });
 
-    console.log(couponToRedeem);
-
     return await prisma.coupon.update({
         where: {
             id: couponToRedeem.id

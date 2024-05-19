@@ -124,13 +124,13 @@ bookController.activateBookByCoupon = async (req, res) => {
 
     try {
         const result = await bookRepository.activateBookByCoupon(bookId, userId, couponString);
-
+        
+        //Sending status of 200 because I want to display server errors on mobile. 
+        //Dear God, forgive me for I have sinned. 
         if (result.success) {
-            return res.status(200).json(responses.getCustomResponse({
-                message: "Successfully activated coupon!"
-            }, false));
+            return res.status(200).json(responses.getCustomResponse("Successfully activated coupon!", false));
         } else {
-            return res.status(400).json(responses.getCustomResponse({
+            return res.status(200).json(responses.getCustomResponse({
                 message: result.error
             }, true));
         }
