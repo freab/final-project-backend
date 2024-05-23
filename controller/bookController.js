@@ -76,11 +76,11 @@ bookController.getAll = async (req, res) => {
 
     try {
         let getAllBooks;
-        if (text && text.trim() !== '') {
+        /* if (text && text.trim() !== '') {
             getAllBooks = await bookRepository.getAll(skip, take, text);
-        } else {
+        } else { */
             getAllBooks = await bookRepository.getAll(skip, take);
-        }
+        //}
         return res.status(200).json(responses.getCustomResponse(getAllBooks, false));
     } catch (error) {
         console.log(error);

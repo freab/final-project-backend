@@ -17,7 +17,7 @@ couponController.create = async (req, res) => {
             user_id, redeemed_date, is_redeemed, price, book_id
         });
 
-        return res.status(400).json(responses.getCustomResponse(createCoupon, false));
+        return res.status(200).json(responses.getCustomResponse(createCoupon, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -28,7 +28,7 @@ couponController.editCoupon = async (req, res) => {
     const { id, user_id, redeemed_date, is_redeemed, price, book_id } = req.body;
 
     if (!id || !user_id || !redeemed_date || !is_redeemed || !price || !book_id) {
-        return res.status(400).json(responses.getCustomResponse({
+        return res.status(200).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
     }
@@ -38,7 +38,7 @@ couponController.editCoupon = async (req, res) => {
             user_id, redeemed_date, is_redeemed, price, book_id
         });
 
-        return res.status(400).json(responses.getCustomResponse(updateCoupon, false));
+        return res.status(200).json(responses.getCustomResponse(updateCoupon, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -58,7 +58,7 @@ couponController.getAll = async (req, res) => {
 
     try {
         const coupons = await couponRepository.getAll(skip, take, isRedeemed);
-        return res.status(400).json(responses.getCustomResponse(coupons, false));
+        return res.status(200).json(responses.getCustomResponse(coupons, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -111,7 +111,7 @@ couponController.isRedeemed = async (req, res) => {
             "couponString": couponString
         }
 
-        return res.status(400).json(responses.getCustomResponse(response, false));
+        return res.status(200).json(responses.getCustomResponse(response, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
@@ -130,7 +130,7 @@ couponController.getById = async (req, res) => {
 
     try {
         const coupons = await couponRepository.getById(id);
-        return res.status(400).json(responses.getCustomResponse(coupons, false));
+        return res.status(200).json(responses.getCustomResponse(coupons, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

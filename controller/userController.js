@@ -7,13 +7,10 @@ const firebaseAuth = require("firebase/auth");
 
 const userController = {};
 
-//bot test comment
 userController.getAll = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
     const text = req.query.text;
-
-    console.log("skip: " + skip + " and take: " + take);
 
     if (isNaN(skip) || isNaN(take)) {
         return res.status(400).json(responses.getCustomResponse({
@@ -294,16 +291,16 @@ userController.incrementScoreByFactor = async (req, res) => {
 userController.getScoreBoard = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
-    const isAsc = req.query.isAsc;
+    const orderBy = req.query.orderBy;
 
-    if (isNaN(skip) || isNaN(take) || (isAsc === null || isAsc === undefined || isAsc === '')) {
+    if (isNaN(skip) || isNaN(take) || (orderBy === null || orderBy === undefined || orderBy === '')) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields!!"
         }, true));
     }
 
     try {
-        const usersList = await userRepository.getScoreBoard(take, skip, isAsc);
+        const usersList = await userRepository.getScoreBoard(take, skip, orderBy);
         return res.status(200).json(responses.getCustomResponse(usersList, false));
     } catch (error) {
         console.log(error);
