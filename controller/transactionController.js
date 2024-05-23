@@ -24,6 +24,25 @@ transactionController.create = async (req, res) => {
     }
 };
 
+transactionController.getAll = async (req, res) => {
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
+
+    if (isNaN(skip) || isNaN(take)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields..."
+        }, true));
+    }
+
+    try {
+        const getAllTransactions = await transactionRepository.getAll(skip, take);
+        res.status(200).json(responses.getCustomResponse(getAllTransactions, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
 transactionController.getById = async (req, res) => {
     const id = parseInt(req.params.id);
 
@@ -94,6 +113,26 @@ transactionController.updateStatus = async (req, res) => {
     try {
         const updatedTransaction = await transactionRepository.updateStatus(id, status);
         return res.status(200).json(responses.getCustomResponse(updatedTransaction, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+transactionController.getTransactionByStatus = async (req, res) => {
+    const status = parseInt(req.params.status);
+    const skip = parseInt(req.query.skip);
+    const take = parseInt(req.query.take);
+
+    if (isNaN(status) || isNaN(skip) || isNaN(take)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const getTransactionsByStatus = await transactionRepository.getByStatus(status, skip, take);
+        return res.status(200).json(responses.getCustomResponse(getTransactionsByStatus, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

@@ -29,6 +29,7 @@ uploadsController.uploadSingle = async (req, res) => {
             }
 
             const fileName = req.file.filename;
+            
             const response = {
                 "message": "File uploaded successfully",
                 "fileName": fileName

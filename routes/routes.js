@@ -9,6 +9,7 @@ const uploadsController = require("../controller/uploadsController");
 const appInfoController = require("../controller/appInfoController");
 const notificationsController = require("../controller/notificationsController");
 const userBooksController = require("../controller/userBookController");
+const transactionController = require("../controller/transactionController");
 
 //user Endpoints
 router.get("/users", userController.getAll);
@@ -42,7 +43,7 @@ router.get("/books/callback", bookController.paymentCallback);
 router.options("/books/callback", bookController.paymentCallback);
 //router.post("/books/return", bookController.paymentReturn);
 router.put("/books/edit", bookController.editBook);
-router.delete("/books/delete/:id", bookController.remove);
+router.delete("/books/deletstatuse/:id", bookController.remove);
 
 //Coupon Endpoints
 router.get("/coupons", couponController.getAll);
@@ -80,13 +81,23 @@ router.post("/files/upload/single", uploadsController.uploadSingle);
 router.post("/appInfo/create", appInfoController.create);
 router.post("/appInfo/welcome", appInfoController.getAppInfoUpdateScore);
 router.get("/appInfo", appInfoController.getAppInfo);
+router.get("/appInfo/stats", appInfoController.getAppStats);
 router.get("/appInfo/health", appInfoController.deviceHealth);
 router.put("/appInfo/edit", appInfoController.editAppInfo);
 
 //notifications
-router.post("/notofications/send/all", notificationsController.sendToAll);
+router.post("/notifications/send/all", notificationsController.sendToAll);
 router.post("/notifications/send/topic/:topic", notificationsController.sendToTopic);
 router.post("/notifications/send/to", notificationsController.sendToDevice);
 router.post("/notifications/send/user", notificationsController.sendToUser);
+
+//transactions
+router.get("/transactions/", transactionController.getAll);
+router.get("/transactions/id/:id", transactionController.getById);
+router.get("/transactions/userId/:userId", transactionController.getByUserId);
+router.get("/transactions/bookId/:bookId", transactionController.getByBookId);
+router.get("/transactions/status/:status", transactionController.getTransactionByStatus);
+router.post("/transactions/status/update", transactionController.updateStatus);
+router.delete("/transactions/delete/:id", transactionController.remove);
 
 module.exports = router;

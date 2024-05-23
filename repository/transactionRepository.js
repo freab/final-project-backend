@@ -14,6 +14,12 @@ transactionRepository.create = async (transaction) => {
     });
 };
 
+transactionRepository.getAll = async (skip, take) => {
+    return await prisma.transactions.findMany({
+        skip, take
+    });
+};
+
 transactionRepository.getById = async (transactionId) => {
     return await prisma.transactions.findFirst({
         where: {
@@ -61,7 +67,14 @@ transactionRepository.updateStatus = async (transactionId, status) => {
     });
 };
 
-
+transactionRepository.getByStatus = async (status, skip, take) => {
+    return await prisma.transactions.findMany({
+        where: {
+            status
+        },
+        skip, take
+    });
+};
 
 transactionRepository.remove = async (transactionId) => {
     return await prisma.transactions.delete({

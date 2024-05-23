@@ -99,20 +99,18 @@ const seedUsers = async () => {
         skipDuplicates: true,
     });
 
-    console.log('Users created successfully!');
+    console.log('Users seeded successfully!');
 };
 
 const seedBooks = async () => {
     const books = generateBooks(20);
-
-    console.log(books);
 
     await prisma.book.createMany({
         data: books,
         skipDuplicates: true,
     });
 
-    console.log('Books created successfully!');
+    console.log('Books seeded successfully!');
 };
 
 const seedPages = async () => {
@@ -123,7 +121,7 @@ const seedPages = async () => {
         skipDuplicates: true
     });
 
-    console.log('Pages created successfully!');
+    console.log('Pages seeded successfully!');
 }
 
 const generateCoupons = (count, userIds, bookIds) => {
@@ -159,7 +157,7 @@ const seedCoupons = async () => {
         skipDuplicates: true,
     });
 
-    console.log('Coupons created successfully!');
+    console.log('Coupons seeded successfully!');
 };
 
 const generateModels = (count, bookIds, setIds) => {
@@ -198,6 +196,24 @@ const generateSets = (count) => {
     return sets;
 };
 
+const generateTransactions = (count) => {
+    const transactions = [];
+    const statuses = [0, 1, 2];
+
+    for (let i = 0; i < count; i++) {
+        const transaction = {
+            userId: faker.number.int({ min: 10, max: 100 }),
+            bookId: faker.number.int({ min: 10, max: 100 }),
+            status: statuses[Math.floor(Math.random() * statuses.length)],
+            transactionRef: faker.string.alphanumeric(6)
+        };
+
+        transactions.push(transaction);
+    }
+
+    return transactions;
+};
+
 const seedModels = async () => {
     const books = await prisma.book.findMany();
     const sets = await prisma.set.findMany();
@@ -212,7 +228,7 @@ const seedModels = async () => {
         skipDuplicates: true,
     });
 
-    console.log('Models created successfully!');
+    console.log('Models seeded successfully!');
 };
 
 const seedSets = async () => {
@@ -223,9 +239,22 @@ const seedSets = async () => {
         skipDuplicates: true,
     });
 
-    console.log('Sets created successfully!');
+    console.log('Sets seeded successfully!');
 };
 
+const seedTransactions = async () => {
+    const transactions = generateTransactions(25);
+
+    await prisma.transactions.createMany({
+        data: transactions,
+        skipDuplicates: true,
+    });
+
+    console.log('Transactions seeded successfully!');
+};
+
+//APPInfo 
+//Transactions
 
 async function main() {
     /* if (process.argv.includes('--delete-data')) {
@@ -238,6 +267,7 @@ async function main() {
     await seedCoupons();
     await seedSets();
     await seedModels();
+    await seedTransactions();
 }
 
 main()

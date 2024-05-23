@@ -83,8 +83,9 @@ appInfoController.getAppInfo = async (req, res) => {
 
         if (!getAppInformation || !getAppInformation.appNewFeature || !getAppInformation.appVersionNumber || !getAppInformation.currentAction || !getAppInformation.updateUrl || !getAppInformation.resourceType || !getAppInformation.noticeMessage || !getAppInformation.noticeMessageType) {
             res.status(500).json(responses.getCustomResponse("Incomplete app information", true));
-            //throw new Error('Incomplete app information');
         }
+
+        console.log(getAppInformation);
 
         const formattedResponse = {
             appVersionName: getAppInformation.appVersionName,
@@ -127,7 +128,6 @@ appInfoController.getAppInfoUpdateScore = async (req, res) => {
 
         if (!getAppInformation || !getAppInformation.appNewFeature || !getAppInformation.appVersionNumber || !getAppInformation.currentAction || !getAppInformation.updateUrl || !getAppInformation.resourceType || !getAppInformation.noticeMessage || !getAppInformation.noticeMessageType) {
             res.status(500).json(responses.getCustomResponse("Incomplete app information", true));
-            //throw new Error('Incomplete app information');
         }
 
         const formattedResponse = {
@@ -184,6 +184,16 @@ appInfoController.deviceHealth = async (req, res) => {
         };
 
         return res.status(200).json(responses.getCustomResponse(healthInfo, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+appInfoController.getAppStats = async (req, res) => {
+    try {
+        const appStats = await appInfoRepository.getStats();
+        return res.status(200).json(responses.getCustomResponse(appStats, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));
