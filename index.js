@@ -4,6 +4,11 @@ const { PrismaClient } = require("@prisma/client");
 require("dotenv").config();
 const morgan = require('morgan');
 
+const fs = require('fs');
+const util = require('util');
+const os = require('os');
+const path = require('path');
+
 const firebaseAdmin = require("firebase-admin");
 const serviceAccount = require("./config/serviceAccountKey.json");
 
@@ -21,17 +26,13 @@ const customStream = {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms', { stream: customStream }));
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", routes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(serviceAccount)
 });
-
-
-const fs = require('fs');
-const util = require('util');
-const os = require('os');
-const path = require('path');
 
 const homeDirectory = os.homedir();
 const logDirectory = path.join(homeDirectory, 'node-app-log');
@@ -57,8 +58,6 @@ console.log = (...args) => {
 
 // Now console.log will write to both console and file
 console.log('Hello, logging world!');
-
-
 
 async function connectToDB() {
     try {

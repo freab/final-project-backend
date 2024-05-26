@@ -8,7 +8,7 @@ modelRepository.create = async (model) => {
             book_id: model.book_id,
             model_source_url: model.model_source_url,
             size: model.size || "unknown",
-            model_name: model.name,
+            model_name: model.model_name,
             page_number: model.page_number,
             set_id: model.set_id
         }

@@ -55,6 +55,7 @@ router.delete("/coupons/delete/:id", couponController.remove);
 //Model Endpoints
 router.get("/models", modelController.getAll);
 router.post("/models/create", modelController.create);
+router.post("/models/create/upload", modelController.updateAndCreateModel);
 router.get("/models/id/:id", modelController.getById);
 router.put("/models/edit", modelController.editModel);
 router.delete("/models/delete/:id", modelController.deleteModel);
