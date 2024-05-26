@@ -138,7 +138,8 @@ userRepository.edit = async (id, data) => {
 };
 
 userRepository.remove = async (id) => {
-    return prisma.user.delete({
+    console.log("userId", id);
+    return await prisma.user.delete({
         where: {
             id: id
         }

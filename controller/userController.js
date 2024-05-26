@@ -233,6 +233,24 @@ userController.editProfile = async (req, res) => {
     }
 };
 
+userController.editProfileNoAuth = async (req, res) => {
+    const { id } = req.body;
+
+    if (isNaN(id)) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: "Please enter all fields!!"
+        }, true));
+    }
+
+    try {
+        const updatedUser = await userRepository.edit(id, req.body);
+        res.status(200).json(responses.getCustomResponse(updatedUser, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
 userController.getUserById = async (req, res) => {
     const userId = req.params.userId;
 
@@ -307,6 +325,18 @@ userController.getScoreBoard = async (req, res) => {
         res.status(500).json(responses.getCustomResponse(error, true));
     }
 }
+
+userController.deleteProfileNoAuth = async (req, res) => {
+    const id = parseInt(req.params.userId);
+
+    try {
+        const removeUserById = await userRepository.remove(id);
+        return res.status(200).json(responses.getCustomResponse(removeUserById, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
 
 userController.deleteProfile = async (req, res) => {
     const { id, email } = req.user;
