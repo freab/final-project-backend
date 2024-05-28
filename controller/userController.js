@@ -25,7 +25,39 @@ userController.getAll = async (req, res) => {
         } else {
             getAllUsers = await userRepository.getAll(skip, take);
         }
+
         res.status(200).json(responses.getCustomResponse(getAllUsers, false));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(responses.getCustomResponse(error, true));
+    }
+};
+
+userController.registerUser = async (req, res) => {
+    const { firstName, lastName, email, phoneNumber } = req.body;
+
+
+    const requiredFields = [
+        'firstName', 'lastName', 'email', 'phoneNumber'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(400).json(responses.getCustomResponse({
+            message: `Error! Please enter the following fields: ${missingFields.join(', ')}`
+        }, true));
+    }
+
+    try {
+        const createUser = await userRepository.create({
+            fname: firstName,
+            lname: lastName,
+            email: email,
+            phone_number: phoneNumber
+        });
+
+        res.status(200).json(responses.getCustomResponse(createUser, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

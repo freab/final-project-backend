@@ -27,16 +27,24 @@ transactionController.create = async (req, res) => {
 transactionController.getAll = async (req, res) => {
     const skip = parseInt(req.query.skip);
     const take = parseInt(req.query.take);
+    const include = req.query.include;
 
-    if (isNaN(skip) || isNaN(take)) {
+    if (isNaN(skip) || isNaN(take) || !include) {
         return res.status(400).json(responses.getCustomResponse({
             message: "Please enter all fields..."
         }, true));
     }
 
     try {
-        const getAllTransactions = await transactionRepository.getAll(skip, take);
-        res.status(200).json(responses.getCustomResponse(getAllTransactions, false));
+        console.log("include: " + include);
+        let resultTransactions;
+        if (include) {
+            resultTransactions = await transactionRepository.getAllWithInclude(skip, take);
+        } else {
+            resultTransactions = await transactionRepository.getAll(skip, take);
+        }
+
+        res.status(200).json(responses.getCustomResponse(resultTransactions, false));
     } catch (error) {
         console.log(error);
         res.status(500).json(responses.getCustomResponse(error, true));

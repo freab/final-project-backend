@@ -20,6 +20,29 @@ transactionRepository.getAll = async (skip, take) => {
     });
 };
 
+transactionRepository.getAllWithInclude = async (skip, take) => {
+    const transactions = await prisma.transactions.findMany({
+        skip, take
+    });
+
+    const userIds = transactions.map(transaction => transaction.userId);
+    const bookIds = transactions.map(transaction => transaction.bookId);
+
+    const users = await prisma.user.findMany({
+        where: { id: { in: userIds } }
+    });
+
+    const books = await prisma.book.findMany({
+        where: { id: { in: bookIds } }
+    });
+
+    return transactions.map(transaction => ({
+        ...transaction,
+        user: users.find(user => user.id === transaction.userId),
+        book: books.find(book => book.id === transaction.bookId)
+    }));
+};
+
 transactionRepository.getById = async (transactionId) => {
     return await prisma.transactions.findFirst({
         where: {

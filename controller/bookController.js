@@ -1,6 +1,5 @@
 const bookRepository = require("../repository/bookRepository");
 const responses = require("../utils/responses");
-const util = require('util');
 
 const bookController = {};
 

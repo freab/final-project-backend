@@ -45,6 +45,7 @@ model AppInfo {
     id                Int    @id() @default(autoincrement())
     appVersionName    String
     appVersionNumber  Int
+    appVersionType    String @default("none")
     currentAction     String
     appNewFeature     String
     updateUrl         String
@@ -93,6 +94,7 @@ model Page {
     pageTitle           String
     pageDescription     String
     modelId             Int
+    pageNumber          Int
     createdAt           DateTime @default(now())
     updatedAt           DateTime @updatedAt
 }
@@ -103,7 +105,6 @@ model Coupon {
     redeemed_date String?
     is_redeemed   Boolean  @default(false)
     price         Int
-    book_id       Int?
     coupon        String
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
@@ -147,4 +148,13 @@ model Set {
     set_name    String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+}
+
+model FeedBack {
+    id        Int      @id() @default(autoincrement())
+    type      String
+    content   String   @db.MediumText
+    email     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

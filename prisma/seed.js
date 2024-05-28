@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { faker } = require('@faker-js/faker');
+const { faker, da } = require('@faker-js/faker');
 const prisma = new PrismaClient();
 
 const deleteAllData = async () => {
@@ -60,9 +60,10 @@ const generatePages = (count) => {
             bookId: faker.number.int(count),
             bookInfoContentId: `${faker.string.alphanumeric(6)}.md`,
             pagePreviewImageUrl: faker.image.urlPicsumPhotos(),
-            pageTitle: "",
+            pageTitle: "Simple place holder title",
             pageDescription: faker.lorem.sentence(3),
             modelId: faker.number.int({ min: 100, max: 1500 }),
+            pageNumber: i
         }
 
         pages.push(page);
@@ -133,7 +134,6 @@ const generateCoupons = (count, userIds, bookIds) => {
             redeemed_date: faker.date.past().toISOString(),
             is_redeemed: faker.datatype.boolean(),
             price: faker.number.int({ min: 100, max: 1500 }),
-            book_id: faker.number.int(),
             coupon: faker.string.alphanumeric(6).toUpperCase(),
         };
 
@@ -202,8 +202,8 @@ const generateTransactions = (count) => {
 
     for (let i = 0; i < count; i++) {
         const transaction = {
-            userId: faker.number.int({ min: 10, max: 100 }),
-            bookId: faker.number.int({ min: 10, max: 100 }),
+            userId: i,
+            bookId: i,
             status: statuses[Math.floor(Math.random() * statuses.length)],
             transactionRef: faker.string.alphanumeric(6)
         };
@@ -213,6 +213,23 @@ const generateTransactions = (count) => {
 
     return transactions;
 };
+
+const generateFeedbacks = (count) => {
+    const feedBacks = [];
+    const feedBackTypes = ["complaint", "suggestion", "comment", "urgent"];
+
+    for (let i = 0; i < count; i++) {
+        const feedBack = {
+            type: feedBackTypes[Math.floor(Math.random() * feedBackTypes.length)],
+            content: faker.lorem.sentence(5),
+            email: faker.internet.email()
+        };
+
+        feedBacks.push(feedBack);
+    }
+
+    return feedBacks;
+}
 
 const seedModels = async () => {
     const books = await prisma.book.findMany();
@@ -253,8 +270,16 @@ const seedTransactions = async () => {
     console.log('Transactions seeded successfully!');
 };
 
-//APPInfo 
-//Transactions
+const seedFeedbacks = async () => {
+    const feedbacks = generateFeedbacks(25);
+
+    await prisma.feedBack.createMany({
+        data: feedbacks,
+        skipDuplicates: true,
+    });
+
+    console.log('Feedbacks seeded successfully!');
+};
 
 async function main() {
     /* if (process.argv.includes('--delete-data')) {
@@ -268,6 +293,7 @@ async function main() {
     await seedSets();
     await seedModels();
     await seedTransactions();
+    await seedFeedbacks();
 }
 
 main()

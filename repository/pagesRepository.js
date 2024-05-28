@@ -5,12 +5,13 @@ const prisma = new PrismaClient();
 pagesRepository.createPage = async (page) => {
     return await prisma.page.create({
         data: {
-            bookId: page.bookId,
+            bookId: parseInt(page.bookId),
             bookInfoContentId: page.bookInfoContentId,
             pagePreviewImageUrl: page.pagePreviewImageUrl,
             pageTitle: page.pageTitle,
             pageDescription: page.pageDescription,
-            modelId: page.modelId
+            modelId: parseInt(page.modelId),
+            pageNumber: page.pageNumber
         }
     });
 }

@@ -11,11 +11,9 @@ userRepository.create = async (user) => {
             lname: user.lname || undefined,
             email: user.email || undefined,
             phone_number: user.phone_number || undefined,
-            coupon_id: undefined,
-            profle_ulr: defaultProfileUrl,
+            profile_url: defaultProfileUrl,
             score: 0,
-            created_at: new Date(),
-            updated_at: new Date()
+            last_login: new Date(),
         }
     });
 };

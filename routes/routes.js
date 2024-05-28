@@ -10,12 +10,15 @@ const appInfoController = require("../controller/appInfoController");
 const notificationsController = require("../controller/notificationsController");
 const userBooksController = require("../controller/userBookController");
 const transactionController = require("../controller/transactionController");
+const feedBackController = require("../controller/feedBackController");
 
 //user Endpoints
 router.get("/users", userController.getAll);
 router.get("/users/id/:userId", userController.getUserById);
+router.post("/users/create", userController.registerUser);
 router.post("/users/google-signIn", userController.loginWithGoogle);
 router.post("/users/login-email", userController.loginWithEmail);
+router.put("/users/update/device-token", userController.updateDeviceToken);
 router.put("/users/refresh", userController.referesh);
 router.put("/users/edit", userController.editProfileNoAuth);
 router.delete("/users/delete/:userId", userController.deleteProfileNoAuth);
@@ -43,7 +46,7 @@ router.get("/books/callback", bookController.paymentCallback);
 router.options("/books/callback", bookController.paymentCallback);
 //router.post("/books/return", bookController.paymentReturn);
 router.put("/books/edit", bookController.editBook);
-router.delete("/books/deletstatuse/:id", bookController.remove);
+router.delete("/books/delete/:id", bookController.remove);
 
 //Coupon Endpoints
 router.get("/coupons", couponController.getAll);
@@ -72,6 +75,7 @@ router.get("/pages", pageController.getAll);
 router.get("/pages/id/:pageId", pageController.getById);
 router.get("/pages/bookId/:bookId", pageController.getByBookId);
 router.post("/pages/create", pageController.create);
+router.post("/pages/create/upload", pageController.uploadAndCreate);
 router.put("/pages/edit", pageController.editPage);
 router.delete("/pages/delete/:pageId", pageController.delete);
 
@@ -100,5 +104,12 @@ router.get("/transactions/bookId/:bookId", transactionController.getByBookId);
 router.get("/transactions/status/:status", transactionController.getTransactionByStatus);
 router.post("/transactions/status/update", transactionController.updateStatus);
 router.delete("/transactions/delete/:id", transactionController.remove);
+
+//feedbacks
+router.get("/feedbacks", feedBackController.getAll);
+router.get("/feedbacks/type", feedBackController.getAllByType);
+router.get("/feedbacks/email", feedBackController.getAllByEmail);
+router.post("/feedbacks/create", feedBackController.create);
+router.delete("/feedbacks/delete/:feedBackId", feedBackController.delete);
 
 module.exports = router;
